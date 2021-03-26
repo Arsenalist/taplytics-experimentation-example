@@ -1,36 +1,46 @@
 import React from 'react';
 import './App.css';
 import RestApiExample from './RestApiExample'
-
+import JsApiExample from "./JsApiExample";
+import {
+    Switch,
+    Route,
+    BrowserRouter  as Router,
+    Link
+} from "react-router-dom";
 function App() {
-    const Taplytics = window.Taplytics;
-
-    let buttonText = 'Experiment is Off';
-
-    function showTextBasedOnCtaType(ctaType) {
-        switch (ctaType) {
-            case 'sign-up': buttonText = 'Sign Up Now!'; break;
-            case 'offer-for-you': buttonText = 'We made a special offer just for you!'; break;
-            case 'dont-miss-out': buttonText = 'Don\'t miss out'; break;
-        }
-    }
-
-    Taplytics.codeBlock('callToActionCodeBlock', function() {
-        Taplytics.variable('callToAction', 'sign-up', showTextBasedOnCtaType);
-    });
-
-    function buttonClick() {
-        Taplytics.track('cta_clicked');
-    }
-
     return (
+        <Router>
+            <nav className="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+                <a className="navbar-brand" href="#">Experimentation</a>
+                <button className="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span className="navbar-toggler-icon"></span>
+                </button>
+
+                <div className="collapse navbar-collapse" id="navbarsExampleDefault">
+                    <ul className="navbar-nav mr-auto">
+                        <li className="nav-item">
+                            <Link className={'nav-link'} to="/js-api-example">JS API</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className={'nav-link'} to="/rest-api-example">REST API</Link>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
       <div>
-          <h1>JS Script Example</h1>
-          <p>There's a big promotion happening which you'll love!</p>
-        <button className={`btn btn-primary`} onClick={ buttonClick }>{buttonText}</button>
-          <hr/>
-          <RestApiExample/>
+          <Switch>
+              <Route path="/js-api-example">
+                  <JsApiExample />
+              </Route>
+              <Route path="/rest-api-example">
+                  <RestApiExample />
+              </Route>
+          </Switch>
       </div>
+        </Router>
   );
 }
 
